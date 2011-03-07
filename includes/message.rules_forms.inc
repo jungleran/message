@@ -122,7 +122,7 @@ function message_action_assign_message_instance_to_realm_form($settings, &$form,
   $form['settings']['plugin_name'] = array(
     '#type' => 'select',
     '#title' => t('Realm'),
-    '#default_value' => $settings['realm'],
+    '#default_value' => $settings['plugin_name'],
     '#options' => $options,
     '#disabled' => !$options,
     '#required' => TRUE,

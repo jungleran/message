@@ -122,7 +122,7 @@ function message_rules_action_info() {
         'label' => t('Message instance'),
       ),
     ),
-    'eval input' => array('realm_id'),
+    'eval input' => array('plugin_name', 'realm_id'),
     'module' => 'Message',
   );
 

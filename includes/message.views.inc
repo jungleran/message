@@ -214,6 +214,9 @@ function message_views_data() {
     'sort' => array(
       'handler' => 'views_handler_sort_date',
     ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_date',
+    ),
   );
 
   $data['message_instance']['render'] = array(

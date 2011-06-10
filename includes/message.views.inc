@@ -202,6 +202,9 @@ function message_views_data() {
     'sort' => array(
       'handler' => 'views_handler_sort',
     ),
+    'argument' => array(
+      'handler' => 'views_handler_argument_string',
+    ),
   );
 
   $data['message_instance']['timestamp'] = array(

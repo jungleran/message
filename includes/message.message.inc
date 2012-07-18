@@ -87,12 +87,23 @@ class Message extends Entity {
   /**
    * Generate an array for rendering the entity's content.
    *
+   * Iterate oevr the extra field settings, and show the visible partials.
+   *
    * @see entity_build_content()
    */
   public function buildContent($view_mode = 'full', $langcode = NULL) {
-    $content['text'] = array(
-      '#markup' => $this->getText($langcode),
-    );
+    $options['partials'] = TRUE;
+    foreach (field_extra_fields_get_display('message', $this->type, $view_mode) as $key => $value) {
+      if (!$value['visible']) {
+        // Partial is hidden.
+        continue;
+      }
+      $delta = str_replace(MESSAGE_FIELD_MESSAGE_TEXT . '_' , '', $key);
+      $options['partial delta'] = $delta;
+      $content['message_text'][$key] = array(
+        '#markup' => $this->getText($langcode, $options),
+      );
+    }
     return entity_get_controller($this->entityType)->buildContent($this, $view_mode, $langcode, $content);
   }
 

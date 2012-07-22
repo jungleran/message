@@ -171,6 +171,32 @@ class MessageShowMessage extends DrupalWebTestCase {
     $this->assertEqual($text2 . "\n", strip_tags($message->getText(LANGUAGE_NONE, $options)), t('Got correct text for the 2nd delta.'));
   }
 
+  /**
+   * Test rendering partials as extra-fields.
+   */
+  function testExtraField() {
+    $message_type = message_type_create('foo');
+    $wrapper = entity_metadata_wrapper('message_type', $message_type);
+    $wrapper->{MESSAGE_FIELD_MESSAGE_TEXT}[] = array('value' => 'first partial', 'format' => 'plain_text');
+    $wrapper->{MESSAGE_FIELD_MESSAGE_TEXT}[] = array('value' => 'second partial', 'format' => 'plain_text');
+    $wrapper->{MESSAGE_FIELD_MESSAGE_TEXT}[] = array('value' => 'third partial', 'format' => 'plain_text');
+    $wrapper->save();
+
+    $settings = field_bundle_settings('message', 'foo');
+    $display = $settings['extra_fields']['display'];
+    $this->assertEqual(count($display), 3, 'All partials appear in extra-fields.');
+    $this->assertTrue(!empty($display['message_text_0']) && !empty($display['message_text_1']) && !empty($display['message_text_2']), 'All partials appear in extra-fields with the correct name.');
+
+    // Check field info cache is cleared on message type save.
+    $wrapper->{MESSAGE_FIELD_MESSAGE_TEXT}[] = array('value' => 'fourth partial', 'format' => 'plain_text');
+    $wrapper->save();
+
+    $settings = field_bundle_settings('message', 'foo');
+    $display = $settings['extra_fields']['display'];
+    $this->assertEqual(count($display), 4, 'All partials appear in extra-fields.');
+    $this->assertTrue(!empty($display['message_text_0']) && !empty($display['message_text_1']) && !empty($display['message_text_2']) && !empty($display['message_text_3']), 'All partials appear in extra-fields with the correct name.');
+  }
+
 
 }
 

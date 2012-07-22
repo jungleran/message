@@ -95,10 +95,8 @@ class Message extends Entity {
     // Get all the message text fields.
     $content = array();
     $message_type = $this->getType();
-    dpm(field_info_instances('message_type', $message_type->category));
-    foreach (field_info_instances('message_type', $this->type) as $field_name => $value) {
+    foreach (field_info_instances('message_type', $message_type->category) as $field_name => $value) {
       $field = field_info_field($field_name);
-      dpm($field);
       if (empty($field['settings']['message_text'])) {
         continue;
       }

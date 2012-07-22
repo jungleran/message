@@ -461,3 +461,12 @@ function message_update_7008() {
   $field['cardinality'] = FIELD_CARDINALITY_UNLIMITED;
   field_update_field($field);
 }
+
+/**
+ * Mark message-text field as renderable using getText().
+ */
+function message_update_7009() {
+  $field = field_info_field(MESSAGE_FIELD_MESSAGE_TEXT);
+  $field['settings']['message_text'] = TRUE;
+  field_update_field($field);
+}

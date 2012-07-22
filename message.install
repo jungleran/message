@@ -17,6 +17,9 @@ function message_install() {
     'cardinality' => FIELD_CARDINALITY_UNLIMITED,
     'translatable' => TRUE,
     'locked' => TRUE,
+    'settings' => array(
+      'message_text' => TRUE,
+    ),
   );
   $field = field_create_field($field);
   $instance = array(

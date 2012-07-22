@@ -92,17 +92,27 @@ class Message extends Entity {
    * @see entity_build_content()
    */
   public function buildContent($view_mode = 'full', $langcode = NULL) {
-    $options['partials'] = TRUE;
-    foreach (field_extra_fields_get_display('message', $this->type, $view_mode) as $key => $value) {
-      if (!$value['visible']) {
-        // Partial is hidden.
+    // Get all the message text fields.
+    $content = array();
+    $message_type = $this->getType();
+    dpm(field_info_instances('message_type', $message_type->category));
+    foreach (field_info_instances('message_type', $this->type) as $field_name => $value) {
+      $field = field_info_field($field_name);
+      dpm($field);
+      if (empty($field['settings']['message_text'])) {
         continue;
       }
-      $delta = str_replace(MESSAGE_FIELD_MESSAGE_TEXT . '_' , '', $key);
-      $options['partial delta'] = $delta;
-      $content['message_text'][$key] = array(
-        '#markup' => $this->getText($langcode, $options),
-      );
+
+      foreach (field_extra_fields_get_display('message', $this->type, $view_mode) as $key => $value) {
+        if (!$value['visible']) {
+          // Partial is hidden.
+          continue;
+        }
+        $delta = str_replace(MESSAGE_FIELD_MESSAGE_TEXT . '_' , '', $key);
+        $content['message_text'][$field_name][$key] = array(
+          '#markup' => $this->getText($langcode, array('partials' => TRUE, 'partial delta' => $delta)),
+        );
+      }
     }
     return entity_get_controller($this->entityType)->buildContent($this, $view_mode, $langcode, $content);
   }

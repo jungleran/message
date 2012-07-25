@@ -107,7 +107,7 @@ class Message extends Entity {
           continue;
         }
         $delta = str_replace(MESSAGE_FIELD_MESSAGE_TEXT . '_' , '', $key);
-        $content['message_text'][$field_name][$key] = array(
+        $content['message_text_' . $field_name .'_' . $delta] = array(
           '#markup' => $this->getText($langcode, array('partials' => TRUE, 'partial delta' => $delta)),
           '#weight' => $value['weight'],
         );

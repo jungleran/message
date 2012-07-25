@@ -467,24 +467,6 @@ function message_field_extra_fields() {
 }
 
 /**
- * Implements hook_message_type_insert().
- *
- * Clear the field info cache, so extra fields info is purged.
- */
-function message_message_type_insert(MessageType $message_type) {
-  _field_info_collate_fields(TRUE);
-}
-
-/**
- * Implements hook_message_type_update().
- *
- * Clear the field info cache, so extra fields info is purged.
- */
-function message_message_type_update(MessageType $message_type) {
-  _field_info_collate_fields(TRUE);
-}
-
-/**
  * Creates a new message type category.
  *
  * If a message type category already exists, an exception will be thrown.

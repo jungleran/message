@@ -232,6 +232,7 @@ class MessageShowMessage extends DrupalWebTestCase {
       'field_name' => 'field_bar',
       'type' => 'text',
     );
+    field_create_field($field);
     $instance = array(
       'field_name' => 'field_bar',
       'label' => 'Bar',
@@ -243,7 +244,6 @@ class MessageShowMessage extends DrupalWebTestCase {
         'full' => array('visible' => TRUE, 'weight' => -3),
       ),
     );
-    field_create_field($field);
     field_create_instance($instance);
 
     $message_wrapper = entity_metadata_wrapper('message', $message);

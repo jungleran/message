@@ -87,7 +87,7 @@ class Message extends Entity {
   /**
    * Generate an array for rendering the entity's content.
    *
-   * Iterate oevr the extra field settings, and show the visible partials.
+   * Iterate over the extra field settings, and show the visible partials.
    *
    * @see entity_build_content()
    */

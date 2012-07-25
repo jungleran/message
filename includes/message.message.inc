@@ -5,6 +5,7 @@
  * A class used for messages.
  */
 
+
 class Message extends Entity {
 
   /**

@@ -182,7 +182,7 @@ class MessageShowMessage extends DrupalWebTestCase {
     $wrapper->{MESSAGE_FIELD_MESSAGE_TEXT}[] = array('value' => 'third partial', 'format' => 'plain_text');
     $wrapper->save();
 
-    $display = field_extra_fields_get_display('message', 'foo', 'full');
+    $display = field_extra_fields_get_display('message', 'foo', 'default');
     $this->assertEqual(count($display), 3, 'All partials appear in extra-fields.');
     $this->assertTrue(!empty($display['message_text_0']) && !empty($display['message_text_1']) && !empty($display['message_text_2']), 'All partials appear in extra-fields with the correct name.');
 
@@ -190,7 +190,7 @@ class MessageShowMessage extends DrupalWebTestCase {
     $wrapper->{MESSAGE_FIELD_MESSAGE_TEXT}[] = array('value' => 'fourth partial', 'format' => 'plain_text');
     $wrapper->save();
 
-    $display = field_extra_fields_get_display('message', 'foo', 'full');
+    $display = field_extra_fields_get_display('message', 'foo', 'default');
     $this->assertEqual(count($display), 4, 'All partials appear in extra-fields, after re-save.');
     $this->assertTrue(!empty($display['message_text_0']) && !empty($display['message_text_1']) && !empty($display['message_text_2']) && !empty($display['message_text_3']), 'All partials appear in extra-fields with the correct name, after re-save.');
 

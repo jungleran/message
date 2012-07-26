@@ -106,7 +106,7 @@ class Message extends Entity {
           // Partial is hidden.
           continue;
         }
-        $delta = str_replace(MESSAGE_FIELD_MESSAGE_TEXT . '_' , '', $key);
+        $delta = str_replace($field_name . '_' , '', $key);
         $content['message_text_' . $field_name .'_' . $delta] = array(
           '#markup' => $this->getText($langcode, array('partials' => TRUE, 'partial delta' => $delta)),
           '#weight' => $value['weight'],

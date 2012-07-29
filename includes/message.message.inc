@@ -101,11 +101,12 @@ class Message extends Entity {
         continue;
       }
 
-      // Field name might have double underscore as-well, so we need to make
-      // sure we get it right.
+      // Field name might have double underscore as-well, so we need to
+      // make sure we get it right. For this we inverse the string, and
+      // exlpode the first double-underscores.
       $inverse = strrev($key);
       $argument = explode('__', $inverse, 2);
-      if (count($argument) != 2 ) {
+      if (count($argument) != 2) {
         continue;
       }
       $delta = strrev($argument[0]);

@@ -347,8 +347,9 @@ function message_entity_delete($entity, $entity_type) {
     $messages = message_load_multiple(array_keys($check_mids));
     foreach ($messages as $message) {
       foreach ($check_mids[$message->mid] as $field_name) {
+        $field = field_info_field($field_name);
         $wrapper = entity_metadata_wrapper('message', $message);
-        $count = $wrapper->$field_name->count();
+        $count = $field['cardinality'] == 1 ? 1 : $wrapper->{$field_name}->count();
 
         // The amount of entities actually referenced with this field.
         // Would have been nicer to use $count to determine the amount of

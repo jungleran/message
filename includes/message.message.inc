@@ -121,8 +121,14 @@ class Message extends Entity {
         continue;
       }
 
+      $options = array(
+        'partials' => TRUE,
+        'partial delta' => $delta,
+        'field name' => $field_name,
+      );
+
       $content['message_text_' . $field_name .'_' . $delta] = array(
-        '#markup' => $this->getText($langcode, array('partials' => TRUE, 'partial delta' => $delta)),
+        '#markup' => $this->getText($langcode, $options),
         '#weight' => $value['weight'],
       );
     }

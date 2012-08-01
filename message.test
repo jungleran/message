@@ -258,6 +258,41 @@ class MessageShowMessage extends DrupalWebTestCase {
 
     $this->assertTrue(($partial4_pos < $field_pos) && ($field_pos < $partial2_pos), 'Text field rendered between two partials.');
   }
+
+  /**
+   * Test rendering message text fields other than MESSAGE_FIELD_MESSAGE_TEXT
+   * as extra fields.
+   */
+  function testOtherExtraField() {
+    $field = array(
+      'field_name' => 'baz',
+      'type' => 'text',
+      'entity_types' => array('message_type'),
+      'settings' => array(
+        // Mark this as a message text field.
+        'message_text' => TRUE,
+      ),
+    );
+    field_create_field($field);
+
+    $instance = array(
+      'field_name' => 'baz',
+      'bundle' => 'message_type',
+      'entity_type' => 'message_type',
+    );
+    field_create_instance($instance);
+
+    $message_type = message_type_create('foo');
+    $wrapper = entity_metadata_wrapper('message_type', $message_type);
+    $wrapper->{MESSAGE_FIELD_MESSAGE_TEXT}[] = array('value' => 'first field', 'format' => 'plain_text');
+    $wrapper->baz->set('other field');
+    $wrapper->save();
+
+    $message = message_create('foo');
+    $build = $message->buildContent();
+    $this->assertTrue($build['message_text_message_text_0']['#markup'], '<p>first field</p>', 'Default message-text field appears correctly.');
+    $this->assertTrue($build['message_text_baz_0']['#markup'], 'other field', 'Non-default message-text field appears correctly.');
+  }
 }
 
 /**

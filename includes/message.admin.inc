@@ -396,6 +396,7 @@ function message_type_form($form, &$form_state, $message_type, $op = 'edit') {
     );
   }
 
+  $form['#submit'][] = 'message_type_form_submit';
   $form['#submit'][] = 'message_view_modes_submit';
 
   return $form;
@@ -417,13 +418,14 @@ function message_view_modes_submit($form, &$form_state) {
     }
     $values = reset($message_type->{$field_name});
     foreach ($values as $delta => $message_value) {
-      if (!$view_mode = $message_value['view_mode']) {
-        continue;
-      }
       $identifier = "message__{$field_name}__{$delta}";
 
-      $bundle_settings['extra_fields']['display'][$view_mode][$identifier]['weight'] = $delta;
-      $bundle_settings['extra_fields']['display'][$view_mode][$identifier]['visible'] = TRUE;
+      // Rebuild this field in each view mode.
+      foreach (array_keys($bundle_settings['view_modes']) as $view_mode) {
+        $visible = $message_value['view_mode'] == $view_mode;
+        $bundle_settings['extra_fields']['display'][$identifier][$view_mode]['weight'] = $visible ? $delta : 0;
+        $bundle_settings['extra_fields']['display'][$identifier][$view_mode]['visible'] = $visible;
+      }
     }
   }
 

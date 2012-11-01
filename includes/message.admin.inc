@@ -108,6 +108,7 @@ function message_user_admin_settings($form_state) {
   return system_settings_form($form);
 }
 
+
 /**
  * Menu callback; Texts copying settings form.
  */

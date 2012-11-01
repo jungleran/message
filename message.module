@@ -849,3 +849,50 @@ function message_admin_text_copy_batch($origin_lang, $dest_langs, $override, &$c
     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
   }
 }
+
+
+/**
+ * Implements hook_field_attach_form().
+ *
+ * Add a View-mode select list on each field's delta.
+ *
+ */
+function message_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  if ($entity_type != 'message_type') {
+    return;
+  }
+
+  // Get all the view modes.
+  // $entity_info['message']['view modes'];
+  $entity_info = entity_get_info('message');
+  $view_modes[] = t('- NONE - ');
+  foreach ($entity_info['view modes'] as $view_mode => $value) {
+    $view_modes[$view_mode] = $value['label'];
+  }
+
+  foreach (message_get_text_fields() as $field_name) {
+    if (empty($form[$field_name])) {
+      // Field doesn't appear in this message type category.
+      continue;
+    }
+
+    $langcodes = $form[$field_name];
+    foreach (element_children($langcodes) as $langcode) {
+      $deltas = $form[$field_name][$langcode];
+      foreach (element_children($deltas) as $delta) {
+        $form[$field_name][$langcode][$delta]['view_mode'] = array(
+          '#title' => t('View mode'),
+          '#type' => 'select',
+          '#options' => $view_modes,
+          '#default_value' => '',
+        );
+      }
+    }
+  }
+
+  $form['#submit'][] = 'message_view_modes_submit';
+}
+
+function message_view_modes_submit($form, &$form_state) {
+  dpm($form_state);
+}

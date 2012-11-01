@@ -401,8 +401,33 @@ function message_type_form($form, &$form_state, $message_type, $op = 'edit') {
   return $form;
 }
 
+/**
+ * Submit handler; Set the view-mode for each partial.
+ */
 function message_view_modes_submit($form, &$form_state) {
-  dpm($form_state);
+  $message_type = $form_state['message_type'];
+
+  // Rebuild the view-modes, by the first language.
+  $bundle_settings = field_bundle_settings('message', $message_type->name);
+  $bundle_settings['extra_fields']['display'] = array();
+
+  foreach (message_get_text_fields() as $field_name) {
+    if (empty($message_type->{$field_name})) {
+      continue;
+    }
+    $values = reset($message_type->{$field_name});
+    foreach ($values as $delta => $message_value) {
+      if (!$view_mode = $message_value['view_mode']) {
+        continue;
+      }
+      $identifier = "message__{$field_name}__{$delta}";
+
+      $bundle_settings['extra_fields']['display'][$view_mode][$identifier]['weight'] = $delta;
+      $bundle_settings['extra_fields']['display'][$view_mode][$identifier]['visible'] = TRUE;
+    }
+  }
+
+  field_bundle_settings('message', $message_type->name, $bundle_settings);
 }
 
 /**

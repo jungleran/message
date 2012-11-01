@@ -395,7 +395,14 @@ function message_type_form($form, &$form_state, $message_type, $op = 'edit') {
       '#submit' => array('message_type_form_submit_delete')
     );
   }
+
+  $form['#submit'][] = 'message_view_modes_submit';
+
   return $form;
+}
+
+function message_view_modes_submit($form, &$form_state) {
+  dpm($form_state);
 }
 
 /**

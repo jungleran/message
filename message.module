@@ -855,7 +855,6 @@ function message_admin_text_copy_batch($origin_lang, $dest_langs, $override, &$c
  * Implements hook_field_attach_form().
  *
  * Add a View-mode select list on each field's delta.
- *
  */
 function message_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
   if ($entity_type != 'message_type') {
@@ -863,9 +862,8 @@ function message_field_attach_form($entity_type, $entity, &$form, &$form_state, 
   }
 
   // Get all the view modes.
-  // $entity_info['message']['view modes'];
   $entity_info = entity_get_info('message');
-  $view_modes[] = t('- NONE - ');
+  $view_modes[] = t('- NONE -');
   foreach ($entity_info['view modes'] as $view_mode => $value) {
     $view_modes[$view_mode] = $value['label'];
   }
@@ -889,10 +887,4 @@ function message_field_attach_form($entity_type, $entity, &$form, &$form_state, 
       }
     }
   }
-
-  $form['#submit'][] = 'message_view_modes_submit';
-}
-
-function message_view_modes_submit($form, &$form_state) {
-  dpm($form_state);
 }

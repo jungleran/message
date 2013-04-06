@@ -73,6 +73,7 @@ function template_preprocess_message(&$variables) {
   list(, , $bundle) = entity_extract_ids('message', $message);
 
   // Gather CSS classes.
+  $variables['classes_array'][] = drupal_html_class('entity-message');
   $variables['classes_array'][] = drupal_html_class('message-' . $bundle);
 
   // Add suggestions.

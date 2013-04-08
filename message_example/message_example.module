@@ -115,3 +115,34 @@ function message_example_update_message_status($entity_type, $entity) {
     }
   }
 }
+
+/**
+ * Implements hook_theme().
+ */
+function message_example_theme(){
+  return array(
+    'message_example' =>  array(
+      'template' => 'message-example',
+      'render element' => 'entity'
+    ),
+  );
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Add example view modes to Message.
+ */
+function message_example_entity_info_alter(&$entity_info) {
+  $entity_info['message']['view modes']['example'] = array(
+    'label' => t('Example'),
+    'custom settings' => FALSE,
+  );
+}
+
+/**
+ * Preprocess Message.
+ */
+function message_example_preprocess_message(&$variables) {
+  dpm($variables);
+}

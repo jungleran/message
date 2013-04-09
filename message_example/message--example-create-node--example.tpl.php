@@ -30,6 +30,11 @@
 ?>
 
 <div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-  <?php // print render($content); ?>
-  TEST!!!
+  <div class="col-first">
+    <?php print render($content['message__message_text__0']); ?>
+  </div>
+
+  <div class="col-last">
+    <?php print render($content['message__message_text__1']); ?>
+  </div>
 </div>

@@ -121,9 +121,9 @@ function message_example_update_message_status($entity_type, $entity) {
  */
 function message_example_theme(){
   return array(
-    'message_example' =>  array(
-      'template' => 'message-example',
-      'render element' => 'entity'
+    'message__example_create_node__example' =>  array(
+      'template' => 'message--example-create-node--example',
+      'render element' => 'message'
     ),
   );
 }
